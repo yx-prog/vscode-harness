@@ -1,0 +1,141 @@
+{
+  "name": "vscode-harness",
+  "displayName": "Harness · VSCode 多智能体开发平台",
+  "description": "在 VSCode 中一键运行 DeepSeek-Harness：代码 / 运维 / 数据分析多智能体统一平台，BYOK 自由接入任意 LLM。",
+  "version": "0.1.0",
+  "publisher": "yx-prog",
+  "icon": "media/icon.png",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "multi-agent",
+    "deepseek",
+    "harness",
+    "agent",
+    "ai",
+    "byok",
+    "coding-agent",
+    "ops",
+    "data-analysis"
+  ],
+  "main": "./dist/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yx-prog/vscode-harness.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yx-prog/vscode-harness/issues"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "build": "node esbuild.js",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "harness.start",
+        "title": "启动服务",
+        "category": "Harness"
+      },
+      {
+        "command": "harness.stop",
+        "title": "停止服务",
+        "category": "Harness"
+      },
+      {
+        "command": "harness.restart",
+        "title": "重启服务",
+        "category": "Harness"
+      },
+      {
+        "command": "harness.focus",
+        "title": "打开 Harness 面板",
+        "category": "Harness"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "harness",
+          "title": "Harness 多智能体平台",
+          "icon": "$(circuit-board)"
+        }
+      ]
+    },
+    "views": {
+      "harness": [
+        {
+          "type": "webview",
+          "id": "harness.webview",
+          "name": "Harness 控制台"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Harness",
+      "properties": {
+        "harness.dshPackage": {
+          "type": "string",
+          "default": "@deepseek-ai/dsh@0.1.0-rc.6",
+          "description": "DeepSeek-Harness CLI 包名（通过 npx 拉取，可带 @版本号）。V1.0 默认锁定稳定 rc 版本，不自动更新。"
+        },
+        "harness.port": {
+          "type": "number",
+          "default": 3124,
+          "description": "本地服务端口。端口被占用时自动向后递增探测（最多 10 个）。"
+        },
+        "harness.autoStart": {
+          "type": "boolean",
+          "default": false,
+          "description": "打开工作区时自动启动 Harness 服务。"
+        },
+        "harness.provider": {
+          "type": "string",
+          "enum": [
+            "deepseek",
+            "anthropic",
+            "openai-compatible"
+          ],
+          "default": "deepseek",
+          "description": "LLM 提供方（用于把 API Key 注入到正确的环境变量）。"
+        },
+        "harness.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "LLM API Key（BYOK，可选）。填入后以环境变量注入本地 Harness 进程；留空时可在 Harness WebUI 内自行配置。"
+        },
+        "harness.baseUrl": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI 兼容接口地址（可选，例如 https://api.deepseek.com/v1）。"
+        },
+        "harness.model": {
+          "type": "string",
+          "default": "",
+          "description": "默认模型名（可选，留空由 Harness 自身默认值决定）。"
+        },
+        "harness.startupTimeout": {
+          "type": "number",
+          "default": 60,
+          "description": "等待服务就绪的超时秒数（首次启动需下载 Harness 运行时，可适当调大）。"
+        }
+      }
+    }
+  }
+}
