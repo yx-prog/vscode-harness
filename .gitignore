@@ -1,0 +1,8 @@
+node_modules/
+out/
+dist/
+*.vsix
+.vscode-test/
+
+# 产品说明书（含商业模式/竞品分析等商业敏感信息，仅本地保留，不上传公开仓库）
+docs/
