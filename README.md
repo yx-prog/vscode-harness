@@ -98,7 +98,7 @@ npm install
 The status bar shows live service state:
 
 - `$(hubot) Harness` — stopped
-- `$(sync~spin) Harness 启动中…` — starting
+- `$(sync~spin) Harness starting…` — starting
 - `$(vm-active) Harness :3124` — running (shows the actual port)
 - `$(error) Harness 异常` — failed (click to open the panel for details)
 
